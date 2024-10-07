@@ -23,7 +23,7 @@ if ! [ -x "$(command -v npm)" ]; then
 fi
 
 # Run NPM install if node modules does not exist.
-if [[ ! -d "functions/node_modules" ]]; then
+if [[ -d "functions" && ! -d "functions/node_modules" ]]; then
   cd functions
   if npm i; then
     echo "✅ NPM install successful."
