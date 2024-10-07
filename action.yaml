@@ -62,4 +62,4 @@ runs:
     - name: Start Firebase Emulator
       shell: bash
       run: |
-       ./scripts/start-firebase-emulator.sh ${{ inputs.emulators }} ${{ inputs.project-id }} ${{ inputs.max-retries }} ${{ inputs.max-checks }} ${{ inputs.wait-time }}
+       ./start-firebase-emulator.sh ${{ inputs.emulators }} ${{ inputs.project-id }} ${{ inputs.max-retries }} ${{ inputs.max-checks }} ${{ inputs.wait-time }}
