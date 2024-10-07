@@ -1,0 +1,65 @@
+name: 'Firebase Emulator Action'
+description: 'Starts the Firebase Emulator Suite'
+author: 'Invertase'
+
+inputs:
+  node-version:
+    description: 'Node.js version to use'
+    required: false
+    default: '20'
+  java-version:
+    description: 'Java version to use'
+    required: false
+    default: '17'
+  firebase-tools-version:
+    description: 'Firebase Tools version to install'
+    required: false
+    default: 'latest'
+  emulators:
+    description: 'Comma-separated list of Firebase emulators to start (e.g., auth,firestore,functions)'
+    required: false
+    default: 'auth,firestore,functions,storage,database'
+  project-id:
+    description: 'The project ID to use for the Firebase Emulator Suite'
+    required: false
+    default: 'test-project'
+  max-retries:
+    description: 'The maximum number of retries to attempt when starting the Firebase Emulator Suite'
+    required: false
+    default: '3'
+  max-checks:
+    description: 'The maximum number of checks to attempt when starting the Firebase Emulator Suite'
+    required: false
+    default: '60'
+  wait-time:
+    description: 'The time to wait (in seconds) between checks when starting the Firebase Emulator Suite'
+    required: false
+    default: '1'
+  check-port:
+    description: 'The port to check for when starting the Firebase Emulator Suite'
+    required: false
+    default: '8080' # Firestore emulator default port
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ inputs.node-version }}
+
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: ${{ inputs.java-version }}
+
+    - name: Install Firebase Tools
+      shell: bash
+      run: |
+       sudo npm i -g firebase-tools@${{ inputs.firebase-tools-version }}
+
+    - name: Start Firebase Emulator
+      shell: bash
+      run: |
+       ./scripts/start-firebase-emulator.sh ${{ inputs.emulators }} ${{ inputs.project-id }} ${{ inputs.max-retries }} ${{ inputs.max-checks }} ${{ inputs.wait-time }}
