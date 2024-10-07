@@ -39,7 +39,7 @@ jobs:
           firebase-tools-version: 'latest'
           emulators: 'auth'
           project-id: 'test-project'
-          max-retries: '3'
+          max-retries: '1'
           max-checks: '60'
           wait-time: '1'
           check-port: '9099'
