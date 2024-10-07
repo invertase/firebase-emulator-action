@@ -3,14 +3,6 @@ description: 'Starts the Firebase Emulator Suite'
 author: 'Invertase'
 
 inputs:
-  node-version:
-    description: 'Node.js version to use'
-    required: false
-    default: '20'
-  java-version:
-    description: 'Java version to use'
-    required: false
-    default: '17'
   firebase-tools-version:
     description: 'Firebase Tools version to install'
     required: false
@@ -43,17 +35,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ inputs.node-version }}
-
-    - name: Setup Java
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'
-        java-version: ${{ inputs.java-version }}
-
     - name: Install Firebase Tools
       shell: bash
       run: |

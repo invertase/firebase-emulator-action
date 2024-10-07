@@ -17,15 +17,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Set up Node.js (since your action requires it)
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 20
 
-      # Set up Java (since your action requires it)
       - name: Setup Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
@@ -34,8 +32,6 @@ jobs:
       - name: Run Firebase Emulator Action
         uses: ./ # Uses the current repository as an action
         with:
-          node-version: '20'
-          java-version: '17'
           firebase-tools-version: 'latest'
           emulators: 'auth'
           project-id: 'test-project'
