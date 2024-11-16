@@ -1,0 +1,41 @@
+name: Test Firebase Emulator Action
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the current repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # Run your Firebase Emulator Action
+      - name: Run Firebase Emulator Action
+        uses: ./ # Uses the current repository as an action
+        with:
+          firebase-tools-version: 'latest'
+          emulators: 'auth, firestore'
+          project-id: 'test-project'
+          max-retries: '1'
+          max-checks: '60'
+          wait-time: '1'
+          check-port: '9099'
