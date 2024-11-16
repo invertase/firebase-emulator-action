@@ -55,6 +55,9 @@ runs:
           echo "No spaces detected in emulators list."
         fi
         
+        # Trim leading and trailing spaces and commas
+        EMULATORS=$(echo "$EMULATORS" | sed 's/^[[:space:],]*//;s/[[:space:],]*$//')
+        
         # Output the result for debugging purposes
         echo "Stripped emulators list: $EMULATORS"
         echo "EMULATORS=$EMULATORS" >> $GITHUB_ENV  # Store stripped emulators in env
