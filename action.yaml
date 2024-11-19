@@ -31,7 +31,7 @@ inputs:
     description: 'The port to check for when starting the Firebase Emulator Suite'
     required: false
     default: '8080' # Firestore emulator default port
-
+    
 runs:
   using: "composite"
   steps:
@@ -39,6 +39,28 @@ runs:
       shell: bash
       run: |
        sudo npm i -g firebase-tools@${{ inputs.firebase-tools-version }}
+
+    - name: Check and strip spaces from emulators input
+      shell: bash
+      run: |
+        EMULATORS="${{ inputs.emulators }}"
+        
+        # Check if there are spaces around the commas
+        if [[ "$EMULATORS" =~ [[:space:]] ]]; then
+          echo "Spaces detected in emulators list, stripping spaces..."
+          # Remove spaces around commas
+          EMULATORS=$(echo "$EMULATORS" | tr -s ' ' ',')
+          EMULATORS=$(echo "$EMULATORS" | tr -s ',' ',')  # Ensure no accidental extra commas
+        else
+          echo "No spaces detected in emulators list."
+        fi
+        
+        # Trim leading and trailing spaces and commas
+        EMULATORS=$(echo "$EMULATORS" | sed 's/^[[:space:],]*//;s/[[:space:],]*$//')
+        
+        # Output the result for debugging purposes
+        echo "Stripped emulators list: $EMULATORS"
+        echo "EMULATORS=$EMULATORS" >> $GITHUB_ENV  # Store stripped emulators in env
 
     - name: Start Firebase Emulator
       shell: bash
