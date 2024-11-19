@@ -65,4 +65,11 @@ runs:
     - name: Start Firebase Emulator
       shell: bash
       run: |
-       chmod +x ./start-firebase-emulator.sh && ./start-firebase-emulator.sh ${{ env.EMULATORS }} ${{ inputs.project-id }} ${{ inputs.max-retries }} ${{ inputs.max-checks }} ${{ inputs.wait-time }} ${{ inputs.check-port }}
+        chmod +x ${{ github.action_path }}/start-firebase-emulator.sh
+        ${{ github.action_path }}/start-firebase-emulator.sh \
+          ${{ inputs.emulators }} \
+          ${{ inputs.project-id }} \
+          ${{ inputs.max-retries }} \
+          ${{ inputs.max-checks }} \
+          ${{ inputs.wait-time }} \
+          ${{ inputs.check-port }}
